@@ -1,15 +1,15 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { interestPoints } from './interestPoints.entity';
+import { InterestPoints } from './interestPoints.entity';
 
 @Injectable()
-export class interestPointsService {
+export class InterestPointsService {
   constructor(
     @Inject('INTEREST_POINTS_REPOSITORY')
-    private interestPointsRepository: Repository<interestPoints>,
+    private interestPointsRepository: Repository<InterestPoints>,
   ) {}
 
-  async findAll(): Promise<interestPoints[]> {
+  async findAll(): Promise<InterestPoints[]> {
     return this.interestPointsRepository.find();
   }
 }
