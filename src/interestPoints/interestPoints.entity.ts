@@ -1,11 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class InterestPoints {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("increment")
   id: number;
 
-  @Column({name:'nome', length: 500 })
+  @Column({name:'name', length: 500 })
   name: string;
 
   @Column({name: 'latitude'})//X
@@ -14,12 +14,15 @@ export class InterestPoints {
   @Column({name: 'longitude'})//Y
   longitude: number ;
 
-  @Column({name: 'meters'})
-  meters: number ;
+  @Column({name: 'open', default: () => null})
+  open: string ;
 
-  @Column({name: 'open'})
-  open: Date ;
+  @Column({name: 'close', default: () => null})
+  close: string ;
 
-  @Column({name: 'close'})
-  close: Date ;
+  @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
+  public created_at: Date;
+  
+  @UpdateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)", onUpdate: "CURRENT_TIMESTAMP(6)" })
+  public updated_at: Date;
 }
