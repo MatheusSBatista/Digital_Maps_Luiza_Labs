@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@nestjs/common';
 import { ResponseDto } from 'src/dto/response.dto';
 import { Repository } from 'typeorm';
 import { InterestPointsCreateDto } from './dto/interestPoint.create.dto';
+import { InterestPointsFindAroundDto } from './dto/InterestPoints-around.find.dto';
 import { InterestPoints } from './interestPoints.entity';
 
 @Injectable()
@@ -48,7 +49,18 @@ export class InterestPointsService {
         message: "Houve algum erro para cadastrar ponto de interesse!"
       }
     })
+  }
 
+  async findAllAround(latitude,longitude,meters): Promise<InterestPoints[]> {
+    
+    let allInterestPoints = await this.interestPointsRepository.find();
+    let isAround = [];
+    for (let index in allInterestPoints) {
+    if ((longitude - allInterestPoints[index].longitude) * (longitude - allInterestPoints[index].longitude) +
+      (latitude - allInterestPoints[index].latitude) * (latitude - allInterestPoints[index].latitude) <= meters * meters)
+      isAround.push(allInterestPoints[index])
+    }
+    return isAround;
   }
 
 }
