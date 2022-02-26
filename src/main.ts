@@ -11,7 +11,6 @@ async function bootstrap() {
   .setTitle(pckg.name)
   .setDescription(pckg.description)
   .setVersion(pckg.version)
-  .addTag('interestPoints', 'Configuração de Pontos de Interesse')
   .build();
 
 const document = SwaggerModule.createDocument(app, options);

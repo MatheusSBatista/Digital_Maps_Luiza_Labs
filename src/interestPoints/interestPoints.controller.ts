@@ -3,6 +3,7 @@ import { InterestPointsService } from './interestPoints.service';
 import {InterestPoints} from './interestPoints.entity'
 import { ApiTags, ApiResponse, ApiOperation, ApiParam, ApiQuery } from '@nestjs/swagger';
 @Controller('interestPoints')
+@ApiTags('Configuração de Pontos de Interesse')
 export class InterestPointsController {
   constructor(private readonly interestPointsService: InterestPointsService) {}
 
