@@ -3,19 +3,9 @@ import { IsNotEmpty, IsNumber, Min, MaxLength, Max, IsString, isPositive, IsPosi
 
 export class InterestPointsFindAroundDto {
 
+    @IsString()
     @IsNotEmpty()
-    @IsNumber()
-    @IsPositive()
-    latitude: number;
-
-    @IsNotEmpty()
-    @IsNumber()
-    @IsPositive()
-    longitude: number;
-
-    @IsNotEmpty()
-    @IsNumber()
-    meters: number;
+    name: string;
 
     @IsString()
     @IsNotEmpty()

@@ -53,13 +53,20 @@ export class InterestPointsService {
   }
 
   async findAllAround(latitude, longitude, meters, hours): Promise<InterestPointsFindAroundDto[]> {
-
     let allInterestPoints = await this.interestPointsRepository.find();
     let isAround = [];
     for (let index in allInterestPoints) {
       if ((longitude - allInterestPoints[index].longitude) * (longitude - allInterestPoints[index].longitude) +
-        (latitude - allInterestPoints[index].latitude) * (latitude - allInterestPoints[index].latitude) <= meters * meters)
-        isAround.push(allInterestPoints[index])
+        (latitude - allInterestPoints[index].latitude) * (latitude - allInterestPoints[index].latitude) <= meters * meters) {
+        let response = new InterestPointsFindAroundDto();
+        response.name = allInterestPoints[index].name;
+        if (allInterestPoints[index].close > hours || allInterestPoints[index].close == '') {
+          response.isOpen = 'ABERTO'
+        } else {
+          response.isOpen = 'FECHADO'
+        }
+        isAround.push(response)
+      }
     }
     return isAround;
   }

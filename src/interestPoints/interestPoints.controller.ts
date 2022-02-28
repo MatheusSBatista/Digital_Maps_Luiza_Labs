@@ -29,7 +29,7 @@ export class InterestPointsController {
     return this.interestPointsService.create(data);
   }
 
-  @Get('around/:latitude/:longitude/:meters')
+  @Get('around/:latitude/:longitude/:meters/:hours')
   @ApiOperation({ summary: 'Listar todos Pontos de Interesse próximos a você' })
   @ApiResponse({ status: 200, description: 'Listagem dos Pontos de Interesse realizadado com sucesso.' })
   @ApiResponse({ status: 404, description: 'Registro não encontrado' })
@@ -37,7 +37,8 @@ export class InterestPointsController {
   @ApiParam({ name: "latitude" })
   @ApiParam({ name: "longitude" })
   @ApiParam({ name: "meters" })
-  async findAllAround(@Param('latitude') latitude: number, @Param('longitude') longitude: number, @Param('meters') meters: number, @Param('hours') hours: number): Promise<InterestPointsFindAroundDto[]> {
+  @ApiParam({ name: "hours" })
+  async findAllAround(@Param('latitude') latitude: number, @Param('longitude') longitude: number, @Param('meters') meters: number, @Param('hours') hours: string): Promise<InterestPointsFindAroundDto[]> {
     return this.interestPointsService.findAllAround(latitude, longitude, meters, hours);
   }
 
