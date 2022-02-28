@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Put, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, HttpCode, Delete } from '@nestjs/common';
 import { InterestPointsService } from './interestPoints.service';
 import { InterestPoints } from './interestPoints.entity'
 import { ApiTags, ApiResponse, ApiOperation, ApiParam, ApiQuery, ApiBody } from '@nestjs/swagger';
@@ -52,5 +52,17 @@ export class InterestPointsController {
   async update(@Param() id: number, @Body() updateDto: UpdateInterestPointsDto) {
     return await this.interestPointsService.update(id, updateDto);
   }
+
+  @Delete(':id')
+  @HttpCode(204)
+  @ApiOperation({ summary: 'Deletar um pontode interesse' })
+  @ApiResponse({ status: 204, description: 'Registro deletado.' })
+  @ApiResponse({ status: 404, description: 'Registro não encontrado' })
+  @ApiResponse({ status: 500, description: 'Erro na tentativa de deletar o registro' })
+  @ApiParam({ name: 'id' })
+  async delete(@Param() id: number) {
+    return await this.interestPointsService.delete(id);
+  }
+
 
 }

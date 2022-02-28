@@ -59,7 +59,7 @@ export class InterestPointsService {
     for (let index in allInterestPoints) {
       if ((longitude - allInterestPoints[index].longitude) * (longitude - allInterestPoints[index].longitude) +
         (latitude - allInterestPoints[index].latitude) * (latitude - allInterestPoints[index].latitude) <= meters * meters)
-      isAround.push(allInterestPoints[index])
+        isAround.push(allInterestPoints[index])
     }
     return isAround;
   }
@@ -76,6 +76,12 @@ export class InterestPointsService {
     return await this.interestPointsRepository.update(interestPointsId, interestPoints).then(async response => {
       return response;
     }).catch(error => {
+      return error;
+    });
+  }
+
+  async delete(interestPointsId: number) {
+    return await this.interestPointsRepository.delete(interestPointsId).catch(error => {
       return error;
     });
   }
