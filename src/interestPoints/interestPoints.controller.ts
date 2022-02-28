@@ -1,10 +1,11 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, HttpCode } from '@nestjs/common';
 import { InterestPointsService } from './interestPoints.service';
 import { InterestPoints } from './interestPoints.entity'
-import { ApiTags, ApiResponse, ApiOperation, ApiParam, ApiQuery,ApiBody } from '@nestjs/swagger';
+import { ApiTags, ApiResponse, ApiOperation, ApiParam, ApiQuery, ApiBody } from '@nestjs/swagger';
 import { InterestPointsCreateDto } from './dto/interestPoint.create.dto';
 import { ResponseDto } from 'src/dto/response.dto';
 import { InterestPointsFindAroundDto } from './dto/InterestPoints-around.find.dto';
+import { UpdateInterestPointsDto } from './dto/interestPoints-update-dto';
 @Controller('interestPoints')
 @ApiTags('Configuração de Pontos de Interesse')
 export class InterestPointsController {
@@ -36,8 +37,20 @@ export class InterestPointsController {
   @ApiParam({ name: "latitude" })
   @ApiParam({ name: "longitude" })
   @ApiParam({ name: "meters" })
-  async findAllAround(@Param('latitude') latitude: number, @Param('longitude') longitude: number,@Param('meters') meters: number): Promise<InterestPoints[]> {
-    return this.interestPointsService.findAllAround(latitude,longitude,meters);
+  async findAllAround(@Param('latitude') latitude: number, @Param('longitude') longitude: number, @Param('meters') meters: number, @Param('hours') hours: number): Promise<InterestPointsFindAroundDto[]> {
+    return this.interestPointsService.findAllAround(latitude, longitude, meters, hours);
+  }
+
+  @Put(':id')
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Alterar Pontos de Interesse' })
+  @ApiBody({ type: UpdateInterestPointsDto })
+  @ApiResponse({ status: 200, description: 'Registro alterado com sucesso.' })
+  @ApiResponse({ status: 404, description: 'Registro não encontrado' })
+  @ApiResponse({ status: 500, description: 'Erro na tentativa de alterar o registro' })
+  @ApiParam({ name: 'id' })
+  async update(@Param() id: number, @Body() updateDto: UpdateInterestPointsDto) {
+    return await this.interestPointsService.update(id, updateDto);
   }
 
 }
