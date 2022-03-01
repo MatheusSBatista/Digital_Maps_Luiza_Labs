@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
 import { ResponseDto } from 'src/dto/response.dto';
 import { Repository } from 'typeorm';
 import { InterestPointsCreateDto } from './dto/interestPoint.create.dto';
@@ -27,16 +27,10 @@ export class InterestPointsService {
     interestPoint.longitude = data.longitude;
 
     if (interestPoint.latitude < 0) {
-      return <ResponseDto>{
-        status: false,
-        message: "Valor de Latitude(X) deve ser inteiro e maior que 0!"
-      }
+      throw new HttpException('Valor de Latitude(X) deve ser inteiro e maior que 0!', HttpStatus.INTERNAL_SERVER_ERROR);
     }
     if (interestPoint.longitude < 0) {
-      return <ResponseDto>{
-        status: false,
-        message: "Valor de Longitude(Y) deve ser inteiro e maior que 0!"
-      }
+      throw new HttpException('Valor de Longitude(Y) deve ser inteiro e maior que 0!', HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     return await this.interestPointsRepository.save(interestPoint).then(async response => {
@@ -45,10 +39,7 @@ export class InterestPointsService {
         message: "Ponto de interesse cadastrado com sucesso!"
       }
     }).catch(error => {
-      return <ResponseDto>{
-        status: false,
-        message: "Houve algum erro para cadastrar ponto de interesse!"
-      }
+      throw new HttpException('Houve algum erro para cadastrar ponto de interesse!', HttpStatus.INTERNAL_SERVER_ERROR);
     })
   }
 
@@ -83,13 +74,13 @@ export class InterestPointsService {
     return await this.interestPointsRepository.update(interestPointsId, interestPoints).then(async response => {
       return response;
     }).catch(error => {
-      return error;
+      throw new HttpException('Houve algum erro para alterar ponto de interesse!', HttpStatus.INTERNAL_SERVER_ERROR);
     });
   }
 
   async delete(interestPointsId: number) {
     return await this.interestPointsRepository.delete(interestPointsId).catch(error => {
-      return error;
+      throw new HttpException('Houve algum erro para deletar ponto de interesse!', HttpStatus.INTERNAL_SERVER_ERROR);
     });
   }
 
