@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, Min, MaxLength, Max, IsString } from 'class-validator';
+import { IsNotEmpty, IsString,IsPositive } from 'class-validator';
 
 export class InterestPointsCreateDto {
     @ApiProperty({
@@ -16,6 +16,7 @@ export class InterestPointsCreateDto {
         example: "10"
     })
     @IsNotEmpty()
+    @IsPositive()
     latitude: number;
 
     @ApiProperty({
@@ -23,6 +24,7 @@ export class InterestPointsCreateDto {
         example: "23"
     })
     @IsNotEmpty()
+    @IsPositive()
     longitude: number;
 
     @ApiProperty({
