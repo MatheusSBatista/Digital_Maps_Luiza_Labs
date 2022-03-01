@@ -1,3 +1,4 @@
+import { ResponseDto } from 'src/dto/response.dto'
 import { InterestPointsFindAroundDto } from '../../dto/InterestPoints-around.find.dto'
 import { InterestPoints } from '../../interestPoints.entity'
 
@@ -59,5 +60,14 @@ export const MockInterestPointsFindAroundDto: InterestPointsFindAroundDto[] = [
     })
 ];
 
+export const mockResponseDelete: ResponseDto =
+{
+    message: "Ponto de interesse deletado com sucesso!",
+    status: true
+};
 
-
+export const mockResponseCreate: ResponseDto =
+{
+    message: "Ponto de interesse cadastrado com sucesso!",
+    status: true
+};

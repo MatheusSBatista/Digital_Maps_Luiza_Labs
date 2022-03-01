@@ -39,9 +39,9 @@ describe('InterestPointsController', () => {
 
     describe('findAll', () => {
         it('should return a interestPoints list', async () => {
-            const result = await interestPointsController.findAll();
-            expect(result).toEqual(MockInterestPoints);
-            expect(typeof result).toEqual('object');
+            const response = await interestPointsController.findAll();
+            expect(response).toEqual(MockInterestPoints);
+            expect(typeof response).toEqual('object');
             expect(interestPointsService.findAll).toHaveBeenCalledTimes(1);
         });
 
@@ -61,9 +61,9 @@ describe('InterestPointsController', () => {
                 close: '20:00'
             };
 
-            const result = await interestPointsController.create(body);
+            const response = await interestPointsController.create(body);
 
-            expect(result).toEqual(MockNewInterestPoint);
+            expect(response).toEqual(MockNewInterestPoint);
             expect(interestPointsService.create).toHaveBeenCalledTimes(1);
             expect(interestPointsService.create).toHaveBeenCalledWith(body);
 
@@ -94,9 +94,9 @@ describe('InterestPointsController', () => {
                 close: '20:00'
             };
 
-            const result = await interestPointsController.update(1, body);
+            const response = await interestPointsController.update(1, body);
 
-            expect(result).toEqual(MockUpdateInterestPoint);
+            expect(response).toEqual(MockUpdateInterestPoint);
             expect(interestPointsService.update).toHaveBeenCalledTimes(1)
             expect(interestPointsService.update).toHaveBeenCalledWith(1, body)
 
@@ -119,9 +119,9 @@ describe('InterestPointsController', () => {
     describe('delete', () => {
         it('should delete interestPoint', async () => {
 
-            const result = await interestPointsController.delete(1);
+            const response = await interestPointsController.delete(1);
 
-            expect(result).toBeUndefined();
+            expect(response).toBeUndefined();
             expect(interestPointsService.delete).toHaveBeenCalledTimes(1);
 
         });
@@ -136,9 +136,9 @@ describe('InterestPointsController', () => {
 
     describe('findAllAround', () => {
         it('should find interestPoint arround', async () => {
-            const result = await interestPointsController.findAllAround(20, 10, 10, '19:00');
+            const response = await interestPointsController.findAllAround(20, 10, 10, '19:00');
 
-            expect(result).toEqual(MockInterestPointsFindAroundDto);
+            expect(response).toEqual(MockInterestPointsFindAroundDto);
             expect(interestPointsService.findAllAround).toHaveBeenCalledTimes(1);
         });
 
