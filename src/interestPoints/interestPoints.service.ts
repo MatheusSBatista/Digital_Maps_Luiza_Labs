@@ -1,4 +1,5 @@
 import { Injectable, Inject, HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { ResponseDto } from 'src/dto/response.dto';
 import { Repository } from 'typeorm';
 import { InterestPointsCreateDto } from './dto/interestPoint.create.dto';
@@ -9,7 +10,7 @@ import { InterestPoints } from './interestPoints.entity';
 @Injectable()
 export class InterestPointsService {
   constructor(
-    @Inject('INTEREST_POINTS_REPOSITORY')
+    @InjectRepository(InterestPoints)
     private interestPointsRepository: Repository<InterestPoints>,
   ) { }
 
@@ -67,8 +68,9 @@ export class InterestPointsService {
     const response = await this.findOneOrFail(interestPointsId);
 
     this.interestPointsRepository.merge(response, dtoUpdate);
-    return await this.interestPointsRepository.save(response);
-    
+    return await this.interestPointsRepository.save(response).catch(error => {
+      throw new HttpException('Houve algum erro para alterar ponto de interesse!', HttpStatus.INTERNAL_SERVER_ERROR);
+    });;
   }
 
   async delete(interestPointsId: number) {
