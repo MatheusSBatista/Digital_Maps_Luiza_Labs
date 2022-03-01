@@ -1,4 +1,4 @@
-import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, Inject, HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
 import { ResponseDto } from 'src/dto/response.dto';
 import { Repository } from 'typeorm';
 import { InterestPointsCreateDto } from './dto/interestPoint.create.dto';
@@ -63,25 +63,32 @@ export class InterestPointsService {
   }
 
   async update(interestPointsId: number, dtoUpdate: UpdateInterestPointsDto) {
-    let interestPoints = new InterestPoints();
 
-    interestPoints.name = dtoUpdate.name;
-    interestPoints.open = dtoUpdate.open;
-    interestPoints.close = dtoUpdate.close;
-    interestPoints.latitude = dtoUpdate.latitude;
-    interestPoints.longitude = dtoUpdate.longitude;
+    const response = await this.findOneOrFail(interestPointsId);
 
-    return await this.interestPointsRepository.update(interestPointsId, interestPoints).then(async response => {
-      return response;
-    }).catch(error => {
-      throw new HttpException('Houve algum erro para alterar ponto de interesse!', HttpStatus.INTERNAL_SERVER_ERROR);
-    });
+    this.interestPointsRepository.merge(response, dtoUpdate);
+    return await this.interestPointsRepository.save(response);
+    
   }
 
   async delete(interestPointsId: number) {
-    return await this.interestPointsRepository.delete(interestPointsId).catch(error => {
+    await this.findOneOrFail(interestPointsId);
+    return await this.interestPointsRepository.delete(interestPointsId).then(async response => {
+      return <ResponseDto>{
+        status: true,
+        message: "Ponto de interesse deletado com sucesso!"
+      }
+    }).catch(error => {
       throw new HttpException('Houve algum erro para deletar ponto de interesse!', HttpStatus.INTERNAL_SERVER_ERROR);
     });
+  }
+
+  async findOneOrFail(id: number) {
+    try {
+      return await this.interestPointsRepository.findOneOrFail(id);
+    } catch (error) {
+      throw new NotFoundException('Registro não encontrado!');
+    }
   }
 
 }
