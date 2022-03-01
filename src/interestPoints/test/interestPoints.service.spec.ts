@@ -120,6 +120,34 @@ describe('InterestPointsService', () => {
 
             expect(interestPointsService.update(1, data)).rejects.toThrowError();
         });
+
+        it('should throw an exception latitude negative', () => {
+            const data: InterestPointsCreateDto = {
+                name: 'Teste ponto interesse',
+                latitude: -1,
+                longitude: 2,
+                open: '10:00',
+                close: '20:00'
+            };
+
+            jest.spyOn(interestPointsRepository, 'save').mockRejectedValueOnce(new Error());
+            expect(interestPointsService.update(1,data)).rejects.toThrowError(HttpException);
+
+        });
+        it('should throw an exception longitude negative', () => {
+            const data: InterestPointsCreateDto = {
+                name: 'Teste ponto interesse',
+                latitude: 1,
+                longitude: -2,
+                open: '10:00',
+                close: '20:00'
+          };
+      
+            jest.spyOn(interestPointsRepository, 'save').mockRejectedValueOnce(new Error());
+            expect(interestPointsService.update(1,data)).rejects.toThrowError(HttpException);
+    
+          });
+
     });
 
     describe('delete', () => {

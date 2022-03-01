@@ -66,6 +66,13 @@ export class InterestPointsService {
   async update(interestPointsId: number, dtoUpdate: UpdateInterestPointsDto) {
 
     const response = await this.findOneOrFail(interestPointsId);
+    if (dtoUpdate.latitude < 0) {
+
+      throw new HttpException('Valor de Latitude(X) deve ser inteiro e maior que 0!', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    if (dtoUpdate.longitude < 0) {
+      throw new HttpException('Valor de Longitude(Y) deve ser inteiro e maior que 0!', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     this.interestPointsRepository.merge(response, dtoUpdate);
     return await this.interestPointsRepository.save(response).catch(error => {
