@@ -1,7 +1,7 @@
 
 # DigitalMaps
 
-[DigitalMaps](https://github.com/MatheusSBatista/digital-maps-luiza-labs-api) Desafio LuizaLabs para cadastrar e buscar pontos de interesse.
+[DigitalMaps](https://github.com/MatheusSBatista/digital-maps-luiza-labs-api) [Desafio](./docs/backend_test_luizaLabs.pdf) LuizaLabs para cadastrar e buscar pontos de interesse.
 ### Documentação API
 
 Para a documentação é utilizado o [Swagger](https://swagger.io/). Ferramenta que provê interface para testes.
@@ -16,8 +16,30 @@ Por padrão a documentação está disponível no endpoint `/api/docs/#/`.
 
 ```
 * NodeJs
+* Docker
 * Mysql
 ```
+### Instalação
+
+#### Docker compose:
+
+Acessar a pasta raiz do projeto e executar:
+
+```
+
+https://docs.docker.com/compose/install/
+docker-compose up -d
+
+```
+
+#### NodeJs
+
+```
+
+[Documentação Oficial](https://nodejs.org/en/)
+
+```
+
 ### Instalando as dependencias
 
 ```bash
@@ -48,7 +70,7 @@ $ yarn start:prod
 ```
 
 ### Testes
-
+Para executar o testes unitários do projeto execute os comandos.
 ```bash
 # unit tests
 $ npm run test
